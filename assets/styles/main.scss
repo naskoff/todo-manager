@@ -5,3 +5,14 @@
 @import '~@fortawesome/fontawesome-free/scss/brands';
 
 @import '~sweetalert2/src/sweetalert2';
+
+#todos {
+  .todo-completed {
+    .form-check-label {
+      text-decoration: line-through;
+    }
+    .btn {
+      display: none;
+    }
+  }
+}

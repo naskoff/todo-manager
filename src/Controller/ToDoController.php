@@ -58,9 +58,28 @@ class ToDoController extends AbstractController
     public function list(ToDoRepository $repository): Response
     {
         $todos = $repository
-            ->findBy(['user' => $this->getUser()], ['status' => 'ASC', 'createdAt' => 'DESC']);
+            ->findBy(['user' => $this->getUser()], ['status' => 'DESC', 'createdAt' => 'DESC']);
 
         return $this->render('Pages/todo-item.html.twig', ['todos' => $todos]);
+    }
+
+    /**
+     * @Route("/todos/{id}/status", methods={"PUT"})
+     * @return void
+     */
+    public function changeStatus(ManagerRegistry $managerRegistry, ToDoRepository $repository, int $id): JsonResponse
+    {
+        $todo = $repository->find($id);
+        if (!$todo || $todo->getUser() !== $this->getUser()) {
+            return new JsonResponse(['success' => false, 'error' => 'Task not found']);
+        }
+
+        $todo->setStatus($todo->getStatus() === ToDo::STATUS_PENDING ? ToDo::STATUS_COMPLETE : ToDo::STATUS_PENDING);
+
+        $managerRegistry->getManager()->persist($todo);
+        $managerRegistry->getManager()->flush();
+
+        return new JsonResponse(['status' => $todo->getStatus()]);
     }
 
     /**

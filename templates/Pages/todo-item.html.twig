@@ -1,10 +1,14 @@
-<ul class="list-group list-group-flush">
+<ul class="list-group list-group-flush" id="todos">
     {% for todo in todos|default([]) %}
-        <li class="list-group-item d-flex" id="task-row-{{ todo.id }}">
+        {% set statusComplete = constant('\\App\\Entity\\ToDo::STATUS_COMPLETE') %}
+        <li class="list-group-item d-flex{% if statusComplete == todo.status %} todo-completed{% endif %}"
+            id="task-row-{{ todo.id }}">
             <div class="d-inline-flex">
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
-                    <label class="form-check-label" for="inlineCheckbox3">{{ todo.title }}</label>
+                    <input class="form-check-input change-status-task" type="checkbox" id="todo-{{ todo.id }}"
+                            {% if statusComplete == todo.status %} checked="checked"{% endif %}
+                           value="1" data-id="{{ todo.id }}">
+                    <label class="form-check-label" for="todo-{{ todo.id }}">{{ todo.title }}</label>
                 </div>
             </div>
             <div class="d-inline-flex ms-auto">

@@ -1,17 +1,27 @@
-/*
- * Welcome to your app's main JavaScript file!
- *
- * We recommend including the built version of this JavaScript file
- * (and its CSS file) in your base layout (base.html.twig).
- */
-
-// any CSS you import will output into a single css file (app.css in this case)
-// import './styles/app.css';
-
-// start the Stimulus application
 import './bootstrap';
 
 const Swal = require('sweetalert2');
+
+document.querySelectorAll('.change-status-task').forEach((element) => {
+    element.addEventListener('change', function (event) {
+        event.preventDefault();
+        const id = element.getAttribute('data-id');
+        const row = document.querySelector(`#task-row-${id}`);
+        element.setAttribute('disabled', 'disable');
+        fetch('/todos/' + id + '/status', {
+            method: 'put',
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.status === 'COMPLETE') {
+                    row.classList.add('todo-completed');
+                } else {
+                    row.classList.remove('todo-completed');
+                }
+                element.removeAttribute('disabled');
+            });
+    })
+});
 
 document.querySelectorAll('.confirm-delete-task').forEach((element) => {
     element.addEventListener('click', function (event) {
