@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Registration {{ parent() }}{% endblock %}
+
+{% block body %}
+    <section class="row d-flex justify-content-center align-items-center">
+        <div class="col-12 col-sm-8 col-md-6">
+            <div class="card">
+                <div class="card-body p-5">
+                    <h2 class="text-uppercase text-center mb-5">Create an account</h2>
+                    {{ form_start(form) }}
+                    {{ form_row(form.username) }}
+                    {{ form_row(form.password.first) }}
+                    {{ form_row(form.password.second) }}
+                    {{ form_row(form.agree_terms) }}
+                    <div class="btn-toolbar justify-content-end">
+                        {{ form_row(form.save) }}
+                    </div>
+                    {{ form_rest(form) }}
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
