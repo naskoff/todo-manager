@@ -3,8 +3,17 @@
 {% block title %}List {{ parent() }}{% endblock %}
 
 {% block body %}
-    <div class="p-5 text-dark rounded border">
-        <h1>ToDo Manager</h1>
-        <p>Organize your daily tasks</p>
+    <div class="card">
+        {{ form_start(form, {'attr': {'class': 'form-body'}}) }}
+        <div class="p-3">
+            <div class="input-group">
+                {{ form_widget(form.title) }}
+                {{ form_widget(form.save) }}
+            </div>
+            {{ form_errors(form.title) }}
+        </div>
+        {{ form_rest(form) }}
+        {{ form_end(form) }}
+        {{ render(controller('App\\Controller\\ToDoController::list')) }}
     </div>
 {% endblock %}
