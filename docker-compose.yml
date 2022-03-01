@@ -1,6 +1,20 @@
 version: '3'
 
 services:
+  php:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        TIMEZONE: ${TIMEZONE:-Europe/Sofia}
+    restart: unless-stopped
+    environment:
+      APP_ENV: prod
+      DATABASE_URL: postgresql://${POSTGRES_USER:-symfony}:${POSTGRES_PASSWORD:-ChangeMe}@database:5432/${POSTGRES_DB:-app}?serverVersion=${POSTGRES_VERSION:-13}
+    ports:
+      - "8080:8080"
+    depends_on:
+      - database
 ###> doctrine/doctrine-bundle ###
   database:
     image: postgres:${POSTGRES_VERSION:-13}-alpine
@@ -10,12 +24,12 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-ChangeMe}
       POSTGRES_USER: ${POSTGRES_USER:-symfony}
     volumes:
-      - db-data:/var/lib/postgresql/data:rw
+      - pg_data:/var/lib/postgresql/data:rw
       # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
       # - ./docker/db/data:/var/lib/postgresql/data:rw
 ###< doctrine/doctrine-bundle ###
 
 volumes:
 ###> doctrine/doctrine-bundle ###
-  db-data:
+  pg_data:
 ###< doctrine/doctrine-bundle ###
