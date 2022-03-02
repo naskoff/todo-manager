@@ -9,7 +9,7 @@ services:
         TIMEZONE: ${TIMEZONE:-Europe/Sofia}
     restart: unless-stopped
     environment:
-      APP_ENV: prod
+      APP_ENV: dev
       DATABASE_URL: postgresql://${POSTGRES_USER:-symfony}:${POSTGRES_PASSWORD:-ChangeMe}@database:5432/${POSTGRES_DB:-app}?serverVersion=${POSTGRES_VERSION:-13}
     ports:
       - "8080:8080"

@@ -23,4 +23,9 @@ Start docker containers
   docker-compose up -d 
 ```
 
-Open ToDo Manager at link http://localhost:8080
+Run script init-db for creating and managing database
+```bash
+  docker-compose exec php composer run init-db
+```
+
+Now you can open link http://localhost:8080 and login with admin:admin
